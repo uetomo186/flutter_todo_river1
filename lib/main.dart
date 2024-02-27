@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_todo_river1/todo_add_page.dart';
 
 void main() {
   runApp(const MyTodoApp());
@@ -30,11 +31,31 @@ class TodoListPage extends StatelessWidget {
       ),
       body: ListView(
         children: const <Widget>[
-          Text('ニンジンを買う'),
-          Text('タマネギを買う'),
-          Text('ジャガイモを買う'),
-          Text('カレールーを買う'),
-          Text('肉を買う'),
+          Card(
+            child: ListTile(
+              title: Text('ニンジンを買う'),
+            ),
+          ),
+          Card(
+            child: ListTile(
+              title: Text('タマネギを買う'),
+            ),
+          ),
+          Card(
+            child: ListTile(
+              title: Text('ジャガイモを買う'),
+            ),
+          ),
+          Card(
+            child: ListTile(
+              title: Text('カレールーを買う'),
+            ),
+          ),
+          Card(
+            child: ListTile(
+              title: Text('肉を買う'),
+            ),
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -48,24 +69,6 @@ class TodoListPage extends StatelessWidget {
           );
         },
         child: const Icon(Icons.add),
-      ),
-    );
-  }
-}
-
-class TodoAddPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: TextButton(
-          // ボタンをクリックした時の処理
-          onPressed: () {
-            // "pop"で前の画面に戻る
-            Navigator.of(context).pop();
-          },
-          child: const Text('リスト追加画面（クリックで戻る）'),
-        ),
       ),
     );
   }
