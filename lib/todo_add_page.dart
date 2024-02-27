@@ -6,12 +6,15 @@ class TodoAddPage extends StatefulWidget {
 }
 
 class _TodoAddPageState extends State<TodoAddPage> {
+  // 入力されたテキストをデータとして持つ
   String _text = '';
 
+  // データを元に表示するWidget
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('リスト追加'),
+        title: Text('リスト追加'),
       ),
       body: Container(
         // 余白を付ける
@@ -35,29 +38,30 @@ class _TodoAddPageState extends State<TodoAddPage> {
             ),
             const SizedBox(height: 8),
             Container(
+              // 横幅いっぱいに広げる
               width: double.infinity,
+              // リスト追加ボタン
               child: ElevatedButton(
-                // ボタンをクリックした時の処理
                 onPressed: () {
                   // "pop"で前の画面に戻る
+                  // "pop"の引数から前の画面にデータを渡す
                   Navigator.of(context).pop(_text);
                 },
-                child: const Text(
-                  'リスト追加',
-                  style: TextStyle(color: Colors.black),
-                ),
+                child: Text('リスト追加', style: TextStyle(color: Colors.white)),
               ),
             ),
             const SizedBox(height: 8),
             Container(
+              // 横幅いっぱいに広げる
               width: double.infinity,
+              // キャンセルボタン
               child: TextButton(
                 // ボタンをクリックした時の処理
                 onPressed: () {
                   // "pop"で前の画面に戻る
                   Navigator.of(context).pop();
                 },
-                child: const Text('キャンセル'),
+                child: Text('キャンセル'),
               ),
             ),
           ],
