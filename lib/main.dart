@@ -5,75 +5,106 @@ import 'package:flutter_todo_river1/todo_add_page.dart';
 void main() {
   // 最初に表示するWidget
   Firebase.initializeApp();
-  runApp(MyTodoApp());
+  runApp(ChatApp());
 }
 
-class MyTodoApp extends StatelessWidget {
+class ChatApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       // 右上に表示される"debug"ラベルを消す
       debugShowCheckedModeBanner: false,
       // アプリ名
-      title: 'My Todo App',
+      title: 'ChatApp',
       theme: ThemeData(
         // テーマカラー
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       // リスト一覧画面を表示
-      home: TodoListPage(),
+      home: LoginPage(),
     );
   }
 }
 
-// リスト一覧画面用Widget
-class TodoListPage extends StatefulWidget {
+// ログイン画面用Widget
+class LoginPage extends StatelessWidget {
   @override
-  _TodoListPageState createState() => _TodoListPageState();
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            ElevatedButton(
+              child: const Text('ログイン'),
+              onPressed: () async {
+                // チャット画面に遷移＋ログイン画面を破棄
+                await Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) {
+                    return ChatPage();
+                  }),
+                );
+              },
+            )
+          ],
+        ),
+      ),
+    );
+  }
 }
 
-class _TodoListPageState extends State<TodoListPage> {
-  // Todoリストのデータ
-  List<String> todoList = [];
+class ChatPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('チャット'),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.close),
+            onPressed: () async {
+              // ログイン画面に遷移＋チャット画面を破棄
+              await Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) {
+                  return LoginPage();
+                }),
+              );
+            },
+          ),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.add),
+        onPressed: () async {
+          // 投稿画面に遷移
+          await Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) {
+              return const AddPostPage();
+            }),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class AddPostPage extends StatelessWidget {
+  const AddPostPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // AppBarを表示し、タイトルも設定
       appBar: AppBar(
-        title: Text('リスト一覧'),
+        title: const Text('チャット投稿'),
       ),
-      // データを元にListViewを作成
-      body: ListView.builder(
-        itemCount: todoList.length,
-        itemBuilder: (context, index) {
-          return Card(
-            child: ListTile(
-              title: Text(todoList[index]),
-            ),
-          );
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          // "push"で新規画面に遷移
-          // リスト追加画面から渡される値を受け取る
-          final newListText = await Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) {
-              // 遷移先の画面としてリスト追加画面を指定
-              return TodoAddPage();
-            }),
-          );
-          if (newListText != null) {
-            // キャンセルした場合は newListText が null となるので注意
-            setState(() {
-              // リスト追加
-              todoList.add(newListText);
-            });
-          }
-        },
-        child: Icon(Icons.add),
+      body: Center(
+        child: ElevatedButton(
+          child: const Text('戻る'),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
       ),
     );
   }
