@@ -1,74 +1,79 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_todo_river1/todo_add_page.dart';
 
 void main() {
-  runApp(const MyTodoApp());
+  // 最初に表示するWidget
+  Firebase.initializeApp();
+  runApp(MyTodoApp());
 }
 
 class MyTodoApp extends StatelessWidget {
-  const MyTodoApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      // 右上に表示される"debug"ラベルを消す
+      debugShowCheckedModeBanner: false,
+      // アプリ名
+      title: 'My Todo App',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+        // テーマカラー
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
+      // リスト一覧画面を表示
       home: TodoListPage(),
     );
   }
 }
 
 // リスト一覧画面用Widget
-class TodoListPage extends StatelessWidget {
+class TodoListPage extends StatefulWidget {
+  @override
+  _TodoListPageState createState() => _TodoListPageState();
+}
+
+class _TodoListPageState extends State<TodoListPage> {
+  // Todoリストのデータ
+  List<String> todoList = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // AppBarを表示し、タイトルも設定
       appBar: AppBar(
-        title: const Text('リスト一覧'),
+        title: Text('リスト一覧'),
       ),
-      body: ListView(
-        children: const <Widget>[
-          Card(
+      // データを元にListViewを作成
+      body: ListView.builder(
+        itemCount: todoList.length,
+        itemBuilder: (context, index) {
+          return Card(
             child: ListTile(
-              title: Text('ニンジンを買う'),
+              title: Text(todoList[index]),
             ),
-          ),
-          Card(
-            child: ListTile(
-              title: Text('タマネギを買う'),
-            ),
-          ),
-          Card(
-            child: ListTile(
-              title: Text('ジャガイモを買う'),
-            ),
-          ),
-          Card(
-            child: ListTile(
-              title: Text('カレールーを買う'),
-            ),
-          ),
-          Card(
-            child: ListTile(
-              title: Text('肉を買う'),
-            ),
-          ),
-        ],
+          );
+        },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // "リスト追加"のFloatingActionButtonをタップした時の処理
-          // リスト追加画面に遷移します
-          Navigator.of(context).push(
+        onPressed: () async {
+          // "push"で新規画面に遷移
+          // リスト追加画面から渡される値を受け取る
+          final newListText = await Navigator.of(context).push(
             MaterialPageRoute(builder: (context) {
+              // 遷移先の画面としてリスト追加画面を指定
               return TodoAddPage();
             }),
           );
+          if (newListText != null) {
+            // キャンセルした場合は newListText が null となるので注意
+            setState(() {
+              // リスト追加
+              todoList.add(newListText);
+            });
+          }
         },
-        child: const Icon(Icons.add),
+        child: Icon(Icons.add),
       ),
     );
   }

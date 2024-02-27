@@ -40,7 +40,18 @@
   <script src="flutter.js" defer></script>
 </head>
 <body>
+  <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-auth.js"></script>
   <script>
+    const firebaseConfig = {
+    apiKey: "AIzaSyDM7zRI8OzPc0ao9I0dUStiJ6vdXdzAbHw",
+    authDomain: "flutter-todo-river1.firebaseapp.com",
+    projectId: "flutter-todo-river1",
+    storageBucket: "flutter-todo-river1.appspot.com",
+    messagingSenderId: "822085441127",
+    appId: "1:822085441127:web:94da76c07be9bfaa01a6c2",
+    measurementId: "G-S8GPKGLXMR"
+    };
     window.addEventListener('load', function(ev) {
       // Download main.dart.js
       _flutter.loader.loadEntrypoint({
@@ -54,6 +65,8 @@
         }
       });
     });
+    firebase.initializeApp(firebaseConfig);
   </script>
+  <script src="main.dart.js" type="application/javascript"></script>
 </body>
 </html>
