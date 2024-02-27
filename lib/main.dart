@@ -25,8 +25,17 @@ class TodoListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: const Center(
-        child: Text('リスト一覧画面'),
+      appBar: AppBar(
+        title: const Text('リスト一覧'),
+      ),
+      body: ListView(
+        children: const <Widget>[
+          Text('ニンジンを買う'),
+          Text('タマネギを買う'),
+          Text('ジャガイモを買う'),
+          Text('カレールーを買う'),
+          Text('肉を買う'),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -55,7 +64,7 @@ class TodoAddPage extends StatelessWidget {
             // "pop"で前の画面に戻る
             Navigator.of(context).pop();
           },
-          child: Text('リスト追加画面（クリックで戻る）'),
+          child: const Text('リスト追加画面（クリックで戻る）'),
         ),
       ),
     );
